@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TRACE</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+<style>
+  :root {
+    --bg:    #0d0b26;
+    --coral: #e8603c;
+    --pink:  #ff4d6d;
+    --teal:  #2ee6c5;
+    --text:  #dfe3ea;
+    --dim:   #8f97ab;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Courier New", Courier, monospace;
+    padding: 28px 16px 90px;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  /* back button, top right */
+  .back {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    border: 1px solid var(--text);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 10px 14px;
+  }
+  .back:hover { background: var(--text); color: var(--bg); }
+
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--coral);
+    font-size: clamp(34px, 6vw, 62px);
+    text-align: center;
+    font-weight: 700;
+    margin: 42px 0 34px;
+  }
+
+  /* the sketch */
+  #holder {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 44px;
+  }
+  #holder canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .hint {
+    text-align: center;
+    color: var(--dim);
+    font-size: 12px;
+    margin: -30px 0 48px;
+  }
+
+  /* two column fact grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 56px;
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+    .back { position: static; display: inline-block; margin-bottom: 18px; }
+  }
+
+  .field { margin-bottom: 26px; }
+
+  .label {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .label.a { color: var(--pink); }
+  .label.b { color: var(--teal); }
+
+  .field p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  footer {
+    margin-top: 54px;
+    padding-top: 22px;
+    border-top: 1px solid #262445;
+    color: var(--dim);
+    font-size: 11.5px;
+    line-height: 1.9;
+  }
+  footer a { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- CHANGE this link to your class atlas page, or delete the line -->
+<a class="back" href="../">Back to the ATLAS</a>
+
+<div class="wrap">
+
+  <h1>[ TRACE ]</h1>
+
+  <div id="holder"></div>
+  <p class="hint">move the cursor to lead it &nbsp;·&nbsp; hold the mouse to feed it &nbsp;·&nbsp; press any key for new ground</p>
+
+  <div class="grid">
+
+    <div class="field">
+      <div class="label a">Scientific Name:</div>
+      <p>Physarum vestigium</p>
+    </div>
+
+    <div class="field">
+      <div class="label b">Habitat:</div>
+      <p>Damp sediment floors beneath old colony growths, where spore density is uneven enough to be worth searching.</p>
+    </div>
+
+    <div class="field">
+      <div class="label a">Discovered by / at:</div>
+      <p>Shruthi Swaminathan, NYU Shanghai</p>
+    </div>
+
+    <div class="field">
+      <div class="label b">Appearance:</div>
+      <p>A soft lumpy body with no front and no head, ringed by seven tapering arms that each end in a five petal cap. Its colour is never fixed. The whole organism drifts through the spectrum together, darker at the base of each arm than at the tip.</p>
+    </div>
+
+    <div class="field">
+      <div class="label a">Family:</div>
+      <p>Thought to descend from the slime molds, which solve mazes without a brain by wandering, leaving a trail, and following the trail they left.</p>
+    </div>
+
+    <div class="field">
+      <div class="label b">Behaviour:</div>
+      <p>It drifts constantly, whether or not anyone is watching. It leans toward attention, closing a small fraction of the distance each moment rather than arriving. Left alone for long enough it stops following, slows its arms and folds its caps shut.</p>
+    </div>
+
+    <div class="field">
+      <div class="label a">Feeding:</div>
+      <p>It draws the ground in toward itself. Spores within reach shrink away while it feeds, and its energy rises. That energy leaks away constantly, so a creature that is ignored visibly shrinks and pulls its arms in.</p>
+    </div>
+
+    <div class="field">
+      <div class="label b">Trace:</div>
+      <p>It does not erase where it has been. Each moment only partly covers the last, so a ghost of its path stays behind it on the ground, fading rather than vanishing.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    Built in p5.js for Creative Coding Lab, IMA, NYU Shanghai.<br />
+    Transformations, user defined functions, nested loops, <code>sin()</code>, <code>cos()</code> and Perlin <code>noise()</code>.<br />
+    <a href="https://github.com/YOURNAME/CCLAB_CODE">source on GitHub</a>
+  </footer>
+
+</div>
+
+<script src="sketch.js"></script>
+<script>
+  // p5 drops its canvas at the end of <body>. once it exists, move it into
+  // the holder div so it sits between the title and the description.
+  // this needs no change to sketch.js, so the same file still works in the
+  // p5 web editor.
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      var c = document.querySelector("canvas");
+      if (c) { document.getElementById("holder").appendChild(c); }
+    }, 0);
+  });
+</script>
+
+</body>
+</html>
